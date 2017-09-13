@@ -15,6 +15,26 @@ lazy val defaultResolvers = Seq(
   "lightshed-maven" at "http://dl.bintray.com/content/lightshed/maven"
 )
 
+lazy val core3_example_dependencies = (project in file("./core3_example_dependencies"))
+  .settings(
+    resolvers ++= defaultResolvers,
+    libraryDependencies ++= Seq(
+      "com.interelgroup" %% "core3" % "2.2.0",
+      "org.scalameta" %% "scalameta" % "1.8.0",
+      "com.github.etaty" %% "rediscala" % "1.8.0" % Test,
+      "org.scalatest" %% "scalatest" % "3.0.4" % Test
+    ),
+    macroSettings,
+    logBuffered in Test := false,
+    parallelExecution in Test := false
+  )
+
+lazy val macroSettings = Seq(
+  addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M10" cross CrossVersion.full),
+  scalacOptions += "-Xplugin-require:macroparadise",
+  scalacOptions in (Compile, console) := Seq()
+)
+
 lazy val core3_example_combined = (project in file("."))
   .settings(
     organization := appVendor,
@@ -35,6 +55,7 @@ lazy val core3_example_combined = (project in file("."))
     logBuffered in Test := false,
     parallelExecution in Test := false
   )
+  .dependsOn(core3_example_dependencies)
   .enablePlugins(PlayScala, BuildInfoPlugin)
 
 //loads the Play project at sbt startup

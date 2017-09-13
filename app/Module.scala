@@ -64,11 +64,15 @@ class Module extends AbstractModule {
     val groupDefinitions = new core.Group.BasicDefinition with core.Group.JsonDefinition
     val transactionLogDefinitions = new core.TransactionLog.BasicDefinition with core.TransactionLog.JsonDefinition
     val localUserDefinitions = new core.LocalUser.BasicDefinition with core.LocalUser.JsonDefinition
+    val organizationDefinitions =
+      new core3_example_dependencies.database.containers.Organization.BasicDefinition
+        with core3_example_dependencies.database.containers.Organization.JsonDefinition
 
     Map(
       "Group" -> groupDefinitions,
       "TransactionLog" -> transactionLogDefinitions,
-      "LocalUser" -> localUserDefinitions
+      "LocalUser" -> localUserDefinitions,
+      "Organization" -> organizationDefinitions
     )
   }
 
@@ -98,7 +102,8 @@ class Module extends AbstractModule {
           Map(
             "Group" -> Vector(storeActor),
             "TransactionLog" -> Vector(storeActor),
-            "LocalUser" -> Vector(storeActor)
+            "LocalUser" -> Vector(storeActor),
+            "Organization" -> Vector(storeActor)
           )
         )
       )
@@ -119,7 +124,9 @@ class Module extends AbstractModule {
       definitions.SystemUpdateGroup,
       definitions.SystemUpdateLocalUserMetadata,
       definitions.SystemUpdateLocalUserPassword,
-      definitions.SystemUpdateLocalUserPermissions
+      definitions.SystemUpdateLocalUserPermissions,
+      core3_example_dependencies.workflows.definitions.CreateOrganization,
+      core3_example_dependencies.workflows.definitions.QueryOrganizations
     )
   }
 

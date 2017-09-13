@@ -55,7 +55,7 @@ class ExampleInitSpec extends fixture.AsyncFlatSpec with Matchers {
         definitions.SystemQueryTransactionLogs
       )
 
-      val db = core3.test.fixtures.Database.createRedisInstance()
+      val db = fixtures.Database.createCoreInstance()
 
       val config = StaticConfig.get.getConfig("testing.security.example")
       val random = new SecureRandom()
